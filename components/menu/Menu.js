@@ -21,7 +21,7 @@ export default function Menu(props) {
         <MenuButton
           width={130}
           icon={'history'}
-          press={()=>{context.setScreen('chat')}}
+          press={()=>{props.setHistoryScreen()}}
           title={'история'}
           />
         <MenuButton
@@ -31,7 +31,7 @@ export default function Menu(props) {
           title={'написать врачу'}
           />
         <MenuButton
-          width={200}
+          width={150}
           icon={'wifi'}
           press={()=>{context.toggleTheme()}}
           title={'подключить Wi-Fi/BT'}

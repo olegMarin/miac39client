@@ -7,7 +7,7 @@ import {themes} from "../../constants/Colors"
 
 import {styles} from "../../constants/Styles"
 import { TouchableOpacity } from "react-native";
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import LottieView from 'lottie-react-native';
 
 export default function MenuButton(props) {
@@ -31,15 +31,21 @@ export default function MenuButton(props) {
           }}
             accessible={true}
             onPress={()=>{
+              if(Platform.OS === 'web'){
+                  animation.stop()
+              }else{
+                animation.pause()
+                animation.reset()
+              }
               props.press()
-              if(process===0){
                 setProcess(1)
                 animation.play()
-              }else{
-                setProcess(0)
-                animation.stop()
+                setTimeout(()=>{
+                  setProcess(0)
+                  //animation.stop()
+                }, 1500)
               }
-            }}
+            }
             >
         {/* <MaterialCommunityIcons 
             name={'send'}
@@ -52,7 +58,7 @@ export default function MenuButton(props) {
           ref={animate => {
             animation = animate;
           }}
-          loop
+          loop={false}
           style={{
             width: 200,
             height: 200,
@@ -84,7 +90,6 @@ export default function MenuButton(props) {
           >{'отправить показатели'}</Text>
         }
         </View>
-          
       </TouchableOpacity>
   );
 }

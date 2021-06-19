@@ -19,7 +19,8 @@ export default class App extends React.Component {
       user: {},
       user1:{
         id: 2,
-        name: 'oleg'
+        name: 'oleg',
+        token: '1cac447de0804e52abbf74ab41749678'
       },
       setUser: this.setUser,
       theme: 'light',
@@ -43,6 +44,8 @@ export default class App extends React.Component {
           this.setState({ screen: 'PhoneLogin' })
         }
       })
+    }else{
+      this.setState({ screen: 'main' })
     }
     
   }

@@ -197,7 +197,6 @@ export default class PhoneLogin extends React.Component {
               textAlignVertical: "center", 
               padding: 10,
               paddingHorizontal: 35,
-              fontFamily: 'Roboto-Bold',
               backgroundColor: 'transparent'
               }}>
                 {this.state.numExist &&'Этот номер уже зарегистрирован в системе, '}{'введите код подтверждения #'+this.state.pinView+' из SMS:'}

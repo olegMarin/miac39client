@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
+import { ImageBackground, Text, TouchableOpacity, View, Alert } from 'react-native';
 import {Context} from "../functions/context"
 import {lay} from '../constants/Layout'
 import Menu from '../components/menu/Menu'
@@ -11,6 +11,8 @@ import { Button } from "react-native";
 import ValuePicker from "../components/ValuePicker";
 import { Camera } from 'expo-camera';
 import {FontAwesome, MaterialIcons} from '@expo/vector-icons'
+import axi from '../functions/axiosf'
+import History from "../components/History";
 
 export default function Main(props) {
 
@@ -47,12 +49,16 @@ const dataSourceSaturation = new Array(10).fill({ label: null }).map((item, id) 
 
   const [hasCameraPermission, setHasCameraPermission]=useState(null)
 
+  const [historyScreen, setHistoryScreen] = useState(false)
+
 const [pic, setPic] = useState(null)
 let cameraRef = React.useRef()
 const [cameraState, setCameraState] = useState(false)
 const [FlashMode, setFlashMode] = useState(false)
 const [cameraType, setCameraType]= useState('back')
 const [messages, setMessages] = useState()
+
+const history = [{}]
 
 const _getPhoto = async () => {
     if (cameraRef) {
@@ -62,6 +68,25 @@ const _getPhoto = async () => {
       });
       setPic(photo)
     }
+  };
+
+  const _sendData = () => {
+    setProcess(true)
+    axi("",'setData', { 
+            token: context.user.token, 
+            topPress: +hightValue,
+            lowPress: +lowValue,
+            pulse: +pulse,
+            saturation: +saturation,
+            unixtime: (+new Date())/1000,
+            tag: 'pupa',
+          }).then((result) => {
+        if (result.type == 'done') {
+          //Alert.alert('данные отправлены')
+          setProcess(false)
+        } else {
+        }
+      }, (e) => { console.log(e) })
   };
 
   useEffect(() => {
@@ -85,11 +110,11 @@ const _getPhoto = async () => {
             style={styles.menu} 
             hasCameraPermission={hasCameraPermission}
             setCameraState={()=>setCameraState(!cameraState)}
+            setHistoryScreen={()=>setHistoryScreen(true)}
           ></Menu>
           <ButtonSend 
               press={()=>{
-                
-                setProcess(!process)
+                _sendData()
                 }}
               process = {process}
               
@@ -119,12 +144,17 @@ const _getPhoto = async () => {
           />
           <ValuePicker
             title={'сатурация (%)'}
-            dataSource={dataSourcePuls}
+            dataSource={dataSourceSaturation}
             selectedIndex={saturation-90}
             value={saturation}
             setValue={(val)=>{setSaturation(val)}}
           />
-
+            {historyScreen&&
+              <History
+                history={history}
+                close={()=>{setHistoryScreen(false)}}
+              />
+            }
            {cameraState &&
            <View
             style={{
@@ -141,7 +171,8 @@ const _getPhoto = async () => {
                   textAlign: "center",
                   paddingHorizontal: 60,
                   paddingVertical: 8,
-                  fontSize: 18,
+                  fontSize: 20,
+                  fontWeight: '500',
                   color: themes[context.theme].text,
                   height: 'auto',
                   position: 'absolute',

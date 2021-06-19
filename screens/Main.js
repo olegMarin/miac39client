@@ -30,16 +30,23 @@ const dataSourcePuls = new Array(100).fill({ label: null }).map((item, id) => {
   return id+30
 });
 
+const dataSourceSaturation = new Array(10).fill({ label: null }).map((item, id) => {
+  return id+90
+});
+
   const context = useContext(Context)
   const [hightValue, setHightValue] = useState(120)
   
   const [lowValue, setLowValue] = useState(70)
   
   const [pulse, setPulse] = useState(60)
+  
+  const [saturation, setSaturation] = useState(98)
 
   const [process, setProcess] = useState(false)
 
   const [hasCameraPermission, setHasCameraPermission]=useState(null)
+
 const [pic, setPic] = useState(null)
 let cameraRef = React.useRef()
 const [cameraState, setCameraState] = useState(false)
@@ -110,6 +117,14 @@ const _getPhoto = async () => {
             value={pulse}
             setValue={(val)=>{setPulse(val)}}
           />
+          <ValuePicker
+            title={'сатурация (%)'}
+            dataSource={dataSourcePuls}
+            selectedIndex={saturation-90}
+            value={saturation}
+            setValue={(val)=>{setSaturation(val)}}
+          />
+
            {cameraState &&
            <View
             style={{

@@ -20,7 +20,7 @@ export default class ValuePicker extends React.Component {
     }}
     render(){
   return (
-     <View style={{...styles.settSlide, height: lay.window.height/3-40}}>
+     <View style={{...styles.settSlide, height: lay.window.height/4-40}}>
               <Text style={{ 
                     position: 'absolute', 
                     top: - 20,

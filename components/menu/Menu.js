@@ -31,17 +31,19 @@ export default function Menu(props) {
           title={'написать врачу'}
           />
         <MenuButton
-          width={170}
+          width={200}
           icon={'wifi'}
           press={()=>{context.toggleTheme()}}
-          title={'подключить Wi-Fi'}
+          title={'подключить Wi-Fi/BT'}
           />
+          {/*  
         <MenuButton
           width={170}
           icon={'bluetooth-connect'}
           press={()=>{context.toggleTheme()}}
           title={'подключить Bluetooth'}
           />
+*/}
         {props.hasCameraPermission&&
         <MenuButton
           width={200}

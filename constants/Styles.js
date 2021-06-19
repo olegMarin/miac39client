@@ -16,7 +16,7 @@ export const styles ={
       position: 'absolute',
       top: 40,
       right: 0,
-      height: lay.window.height-260,
+      height: lay.window.height-300,
       width: 190,
       zIndex: 150,
     
@@ -172,10 +172,16 @@ export const styles ={
     },
     registrationText: {
       textAlign: "center",
-      paddingHorizontal: 60,
-      paddingVertical: 30,
+      //paddingHorizontal: 60,
+      paddingVertical: 8,
       fontSize: 18,
       height: 'auto',
-      marginTop: 80,
+      marginTop: 8,
+    },
+    containerStyleCheckBox: {
+      //height: 60, 
+      width: 300,
+      borderRadius: 8, 
+      marginTop: 16
     }
 }

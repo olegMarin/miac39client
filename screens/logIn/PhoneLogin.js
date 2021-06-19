@@ -29,16 +29,19 @@ export default class PhoneLogin extends React.Component {
       recurentRefresh: 0,
       snils:'',
       isIrrationalEating: false,
-      age: "",
+      age: '',
       fat: false,
       female: false,
       selectedIndexMale: 3,
       smoking: false,
       diabetes: false,
-      weight: 0,
+      weight: '',
       research: false,
       leftVentricularHypertension: false,
       thickeningCarotidArteryWall: false,
+      increasedStiffnessArteryWall: false,
+      moderateIncreaseInSerumCreatinine: false,
+      decreaseFiltrationRate: false,
 
     }
   }
@@ -107,6 +110,19 @@ export default class PhoneLogin extends React.Component {
          this.context.setScreen('main') 
       }
 
+  _saveForm = async () => {
+          //записи аккаунта введённого телефона в контекст и в память телефона
+          let jsonForm = JSON.stringify(this.state)
+          await  AsyncStorage.setItem("userForm", jsonForm)
+          this.context.setUser({...this.state,
+                                id: 2,
+                                name: 'oleg',
+                                phone: this.state.num
+                              })
+          //вход выполнен карта оплаты есть
+         this.context.setScreen('main') 
+      }
+
 
   render() {
     const buttons = ['Мужчина', 'Женщина']
@@ -158,6 +174,7 @@ export default class PhoneLogin extends React.Component {
           style={{
             ...styles.registrationText,
             color: themes[this.context.theme].text,
+            marginTop:80,
         }}>
           {'Введите номер телефона'}
         </Text>
@@ -233,11 +250,11 @@ export default class PhoneLogin extends React.Component {
                   onPress={this.updateIndex}
                   selectedIndex={this.state.selectedIndexMale}
                   buttons={buttons}
-                  containerStyle={{height: 40, width: 250,borderRadius: 8}}
+                  containerStyle={{height: 40, width: 250,borderRadius: 8, marginTop: 16}}
                   buttonStyle={{backgroundColor: themes[this.context.theme].chatBubble1, 
                                 borderColor: themes[this.context.theme].inputBackground}}
                   textStyle={{color: themes[this.context.theme].chatBubble1Text,}}             
-                  selectedTextStyle={{color: themes[this.context.theme].chatBubble2Text}}
+                  selectedTextStyle={{color: '#fff'}}
                   selectedStyle={{backgroundColor: themes[this.context.theme].chatBubble2}}
                 />
               <Text 
@@ -281,61 +298,122 @@ export default class PhoneLogin extends React.Component {
                 }}
               />
               <CheckBox
-                center
                 title='нерационально питаетесь?'
                 checked={this.state.isIrrationalEating}
                 onPress={()=>this.setState({isIrrationalEating: !this.state.isIrrationalEating})}
-                containerStyle={{height: 40, 
-                  width: 250,
-                  borderRadius: 8, 
-                  backgroundColor: themes[this.context.theme].chatBubble1}}
+                containerStyle={{
+                    ...styles.containerStyleCheckBox,
+                    backgroundColor: themes[this.context.theme].chatBubble1
+                  }}
+                textStyle={{color:themes[this.context.theme].chatBubble1Text}}
               />
               <CheckBox
-                center
                 title='есть ли у Вас ожирение?'
                 checked={this.state.fat}
                 onPress={()=>this.setState({fat: !this.state.fat})}
-                containerStyle={{height: 40, 
-                  width: 250,
-                  borderRadius: 8, 
-                  backgroundColor: themes[this.context.theme].chatBubble1}}
+                containerStyle={{
+                    ...styles.containerStyleCheckBox,
+                    backgroundColor: themes[this.context.theme].chatBubble1
+                  }}
+                textStyle={{color:themes[this.context.theme].chatBubble1Text}}
               />
               <CheckBox
-                center
                 title='курите?'
                 checked={this.state.smoking}
                 onPress={()=>this.setState({smoking: !this.state.smoking})}
-                containerStyle={{height: 40, 
-                  width: 250,
-                  borderRadius: 8, 
-                  backgroundColor: themes[this.context.theme].chatBubble1}}
+                containerStyle={{
+                    ...styles.containerStyleCheckBox,
+                    backgroundColor: themes[this.context.theme].chatBubble1
+                  }}
+                textStyle={{color:themes[this.context.theme].chatBubble1Text}}
+                
               />
               <CheckBox
-                center
                 title='страдаете сахарным диабетом?'
                 checked={this.state.diabetes}
                 onPress={()=>this.setState({diabetes: !this.state.diabetes})}
-                containerStyle={{height: 40, 
-                  width: 250,
-                  borderRadius: 8, 
-                  backgroundColor: themes[this.context.theme].chatBubble1}}
+                containerStyle={{
+                    ...styles.containerStyleCheckBox,
+                    backgroundColor: themes[this.context.theme].chatBubble1
+                  }}
+                textStyle={{color:themes[this.context.theme].chatBubble1Text}}
               />
               <CheckBox
-                center
                 title='проводилось ли исследование сердца и сосудов?'
                 checked={this.state.research}
                 onPress={()=>this.setState({research: !this.state.research})}
-                containerStyle={{height: 40, 
-                  width: 250,
-                  borderRadius: 8, 
-                  backgroundColor: themes[this.context.theme].chatBubble1}}
-              />
+                containerStyle={{
+                    ...styles.containerStyleCheckBox,
+                    backgroundColor: themes[this.context.theme].chatBubble1
+                  }}
+                textStyle={{color:themes[this.context.theme].chatBubble1Text}}
+                />
+                {
+                  this.state.research&&
+                    <>
+                      <CheckBox
+                        title='гипертрофия левого желудочка'
+
+                        checked={this.state.leftVentricularHypertension}
+                        onPress={()=>this.setState({leftVentricularHypertension: !this.state.leftVentricularHypertension})}
+                        containerStyle={{
+                            ...styles.containerStyleCheckBox,
+                            backgroundColor: themes[this.context.theme].chatBubble1
+                          }}
+                        textStyle={{color:themes[this.context.theme].chatBubble1Text}}
+                        />
+                      <CheckBox
+                        title='утолщение стенки сонной артерии'
+
+                        checked={this.state.thickeningCarotidArteryWall}
+                        onPress={()=>this.setState({thickeningCarotidArteryWall: !this.state.thickeningCarotidArteryWall})}
+                        containerStyle={{
+                            ...styles.containerStyleCheckBox,
+                            backgroundColor: themes[this.context.theme].chatBubble1
+                          }}
+                        textStyle={{color:themes[this.context.theme].chatBubble1Text}}
+                        />
+                      <CheckBox
+                        title='увеличение жёсткости стенки артерии'
+
+                        checked={this.state.increasedStiffnessArteryWall}
+                        onPress={()=>this.setState({increasedStiffnessArteryWall: !this.state.increasedStiffnessArteryWall})}
+                        containerStyle={{
+                            ...styles.containerStyleCheckBox,
+                            backgroundColor: themes[this.context.theme].chatBubble1
+                          }}
+                        textStyle={{color:themes[this.context.theme].chatBubble1Text}}
+                        />
+                      <CheckBox
+                        title='умеренное повышение сывороточного креатинина'
+
+                        checked={this.state.moderateIncreaseInSerumCreatinine}
+                        onPress={()=>this.setState({moderateIncreaseInSerumCreatinine: !this.state.moderateIncreaseInSerumCreatinine})}
+                        containerStyle={{
+                            ...styles.containerStyleCheckBox,
+                            backgroundColor: themes[this.context.theme].chatBubble1
+                          }}
+                        textStyle={{color:themes[this.context.theme].chatBubble1Text}}
+                        />
+                      <CheckBox
+                        title='уменьшение скорости клубочковой фильтрации или клиренса креатинина'
+
+                        checked={this.state.decreaseFiltrationRate}
+                        onPress={()=>this.setState({decreaseFiltrationRate: !this.state.decreaseFiltrationRate})}
+                        containerStyle={{
+                            ...styles.containerStyleCheckBox,
+                            backgroundColor: themes[this.context.theme].chatBubble1
+                          }}
+                        textStyle={{color:themes[this.context.theme].chatBubble1Text}}
+                        />
+                    </>
+                }
             </>
             
 
           }
 
-          {this.state.pinOk && !this.state.pinWrong &&
+          {this.state.pinOk &&
             <TouchableOpacity
               onPress={() => {
                 this._logIn()

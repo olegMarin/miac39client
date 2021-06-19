@@ -21,10 +21,10 @@ export default function MenuButton(props) {
           style={{
             position: "absolute",
             bottom: 0,
-            right: -15,
+            right: 0,
             backgroundColor: 'transparent',
-            width: 200,
-            height: 200,
+            width: 150,
+            height: 150,
             borderRadius: 110,
             justifyContent: 'center',
             alignItems: 'center',
@@ -65,12 +65,10 @@ export default function MenuButton(props) {
             backgroundColor: 'transparent',
             position: 'absolute',
             zIndex: 1,
-            top:0, left: 0
+            top: -25, left: -25
           }}
           source={require('../../assets/beatingHeartIcon.json')}
-          // OR find more Lottie files @ https://lottiefiles.com/featured
-          // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
-        />
+           />
         <View
           style={{
             margin: 4,

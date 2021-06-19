@@ -23,7 +23,7 @@ export default function BackButton(props) {
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 50,
-        zIndex: 100,
+        zIndex: 260,
       }}>
       <Ionicons
         name="ios-arrow-back"

@@ -4,12 +4,13 @@ import { Ionicons } from '@expo/vector-icons';
 import {Context} from "../functions/context"
 import {themes} from "../constants/Colors"
 import {lay} from "../constants/Layout"
+import BackButton from "./BackButton"
 
 export default function History(props) {
   
   const context = useContext(Context)
 
-  
+
  
     return(
         <View
@@ -22,6 +23,9 @@ export default function History(props) {
               top: 0,
             }}
            >
+           <BackButton
+              press={()=>{props.close()}}
+            />
            <TouchableOpacity
            
             onPress={()=>props.close()}

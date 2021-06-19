@@ -7,12 +7,12 @@ import ButtonSend from '../components/menu/ButtonSend'
 import {themes} from "../constants/Colors"
 
 import {styles} from "../constants/Styles"
-import { Button } from "react-native";
 import ValuePicker from "../components/ValuePicker";
-import { Camera } from 'expo-camera';
-import {FontAwesome, MaterialIcons} from '@expo/vector-icons'
 import axi from '../functions/axiosf'
+import { Camera } from 'expo-camera';
 import History from "../components/History";
+import CameraScreen from "../components/CameraScreen";
+
 
 export default function Main(props) {
 
@@ -32,7 +32,7 @@ const dataSourcePuls = new Array(100).fill({ label: null }).map((item, id) => {
   return id+30
 });
 
-const dataSourceSaturation = new Array(10).fill({ label: null }).map((item, id) => {
+const dataSourceSaturation = new Array(11).fill({ label: null }).map((item, id) => {
   return id+90
 });
 
@@ -51,24 +51,21 @@ const dataSourceSaturation = new Array(10).fill({ label: null }).map((item, id) 
 
   const [historyScreen, setHistoryScreen] = useState(false)
 
-const [pic, setPic] = useState(null)
-let cameraRef = React.useRef()
 const [cameraState, setCameraState] = useState(false)
-const [FlashMode, setFlashMode] = useState(false)
-const [cameraType, setCameraType]= useState('back')
 const [messages, setMessages] = useState()
 
-const history = [{}]
+const _historyRead=()=>{
+  axi("",'getHistory', { 
+            token: context.user.token
+          }).then((result) => {
+            if(result!==null){
+                setHistory(result)
+            }
+      }, (e) => { console.log(e) })
+  setHistoryScreen(true)
+}
 
-const _getPhoto = async () => {
-    if (cameraRef) {
-      let photo = await cameraRef.takePictureAsync({
-        quality: 0.3,
-        base64: true,
-      });
-      setPic(photo)
-    }
-  };
+const [history, setHistory] = useState([])
 
   const _sendData = () => {
     setProcess(true)
@@ -110,7 +107,7 @@ const _getPhoto = async () => {
             style={styles.menu} 
             hasCameraPermission={hasCameraPermission}
             setCameraState={()=>setCameraState(!cameraState)}
-            setHistoryScreen={()=>setHistoryScreen(true)}
+            setHistoryScreen={()=>_historyRead()}
           ></Menu>
           <ButtonSend 
               press={()=>{
@@ -156,147 +153,10 @@ const _getPhoto = async () => {
               />
             }
            {cameraState &&
-           <View
-            style={{
-              width: lay.window.width,
-              height: lay.window.height,
-              position: 'absolute',
-              backgroundColor: themes[context.theme].allBackgroundOp,
-              zIndex: 250,
-              top: 0,
-            }}
-           >
-            <Text 
-                style={{
-                  textAlign: "center",
-                  paddingHorizontal: 60,
-                  paddingVertical: 8,
-                  fontSize: 20,
-                  fontWeight: '500',
-                  color: themes[context.theme].text,
-                  height: 'auto',
-                  position: 'absolute',
-                  zIndex: 251,
-                  marginTop: 30,
-              }}>{'разместите дисплей тонометра в рамку внизу и сфотографируйте'}</Text>
-            <View
-              style={{
-                position: 'absolute',
-                top: 150,
-                bottom: 50,
-                backgroundColor: '#444',
-                color: '#fff',
-                height: 381,
-                width: 286,
-                left: (lay.window.width-286)/2,
-                borderRadius: 15,
-                zIndex: 200,
-                justifyContent: "center",
-                alignItem: "center",
-                overflow: 'hidden',
-              }}>
-                {!pic &&
-                    <Camera style={{
-                      height: 381,
-                      width: 286, 
-                      borderRadius: 15,}} 
-                      type={cameraType}
-                      ref={ref => {
-                        cameraRef = ref;
-                      }}
-                      //ratio={"1:1"}
-                      >
-                    </Camera>
-                }
-                {pic &&
-                    <View style={{
-                      height: 381,
-                      width: 286,
-                      borderRadius: 15,
-                    }}>
-                      <ImageBackground
-                        style={{width: "100%", height: "100%"}}
-                        source={{ uri: pic.uri}}
-                      />                    
-                    </View>
-                  }
-                  {/* закрыть окно камеры */}
-                  <TouchableOpacity
-                    onPress={() => {
-                        setCameraState(false)
-                    }}
-                    style={{ ...styles.buttonCamera, bottom: 0, left: 8}}
-                  >
-                    <FontAwesome name={'remove'} size={26} color="#fffa" />
-                  </TouchableOpacity>
-                {!pic &&
-                    <TouchableOpacity
-                      onPress={() => {
-                        _getPhoto()
-                      }}
-                      style={{ ...styles.buttonCamera, bottom: 0, right: 119 }}
-                    >
-                      <FontAwesome name={'camera'} size={26} color="#fffa" />
-                    </TouchableOpacity>
-                }
-                {!pic &&           
-                  <TouchableOpacity
-                    onPress={() => {
-                      setFlashMode(
-                          FlashMode === Camera.Constants.FlashMode.on
-                            ? Camera.Constants.FlashMode.off
-                            : Camera.Constants.FlashMode.on,
-                      )
-                    }}
-                    style={{ ...styles.buttonCamera, top: 0, right: 64 }}
-                  >
-                    <MaterialIcons name={(FlashMode === Camera.Constants.FlashMode.on) ? 'flash-on' : 'flash-off'} size={26} color="#fffa" />
-                  </TouchableOpacity>
-                }{!pic &&
-                  <TouchableOpacity
-                    onPress={() => {
-                    setCameraType(                        
-                      cameraType === Camera.Constants.Type.back
-                          ? Camera.Constants.Type.front
-                          : Camera.Constants.Type.back)
-                    }}
-                    style={{ ...styles.buttonCamera, top: 0, right: 8 }}
-                  >
-                    <MaterialIcons name={(cameraType === Camera.Constants.Type.front) ? 'camera-rear' : 'camera-front'} size={26} color="#fffa" />
-                  </TouchableOpacity>
-                }
-                {pic &&
-                  <TouchableOpacity
-                    onPress={() => {
-                      setPic(null)
-                    }}
-                    style={{ ...styles.buttonCamera, bottom: 0, right: 119 }}
-                  >
-                    <FontAwesome name={'undo'} size={26} color="#fffa" />
-                  </TouchableOpacity>
-                }{pic &&
-                  <TouchableOpacity
-                    onPress={() => {
-                      let newMsg = messages
-                        for (let i = 1; i < newMsg.length; i++)
-                        {
-                            newMsg[i].photo = pic.uri
-                            newMsg[i].Base64 = pic.base64 
-                            newMsg[i]._id = newMsg[i]._id+"pic"
-                            newMsg[i].controlPhoto = 3
-                        }
-                      //тут пишем сообщение для отправки
-                      //this.setState({ camera: false, messages: [...newMsg, { system: true, rerender: true}], messIdNewPhoto: this.state.msgGoId })
-                      console.log("press", pic.uri)
-                    }}
-                    style={{ ...styles.buttonCamera, bottom: 0, right: 8 }}
-                  >
-                    <FontAwesome name={'check'} size={26} color="#fffa" />
-                  </TouchableOpacity>
-                }
-            </View>
-          </View>
-        }
+              <CameraScreen
+                close={()=>setCameraState(false)}  
+              />
+          }
       </View>
   );
 }

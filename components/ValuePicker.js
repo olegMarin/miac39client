@@ -20,7 +20,7 @@ export default class ValuePicker extends React.Component {
     }}
     render(){
   return (
-     <View style={{...styles.settSlide, height: lay.window.height/4-40}}>
+     <View style={{...styles.settSlide, height: lay.window.height/4-50}}>
               <Text style={{ 
                     position: 'absolute', 
                     top: - 20,
@@ -31,13 +31,13 @@ export default class ValuePicker extends React.Component {
                     color: themes[this.context.theme].mainText, 
                     fontWeight: '500',
                     backgroundColor: themes[this.context.theme].gradientStart,
-                    width: lay.window.width-206,
+                    width: lay.window.width-216,
                   }}>
               {this.props.title}
               </Text>
               <LinearGradient
                 colors={[themes[this.context.theme].gradientStart, themes[this.context.theme].gradientEnd]}
-                style={{...styles.titleTopGradient, height: (lay.window.height/3-50)/4}}
+                style={{...styles.titleTopGradient, height: (lay.window.height/4-50)/4}}
               />  
               <ScrollPicker
                 style={{
@@ -47,8 +47,8 @@ export default class ValuePicker extends React.Component {
                 dataSource={this.props.dataSource}
                 selectedIndex={this.props.selectedIndex}
                 //scrollToIndex={this.props.selectedIndex}
-                itemHeight={50}
-                wrapperHeight={lay.window.height/3-40}
+                itemHeight={40}
+                wrapperHeight={lay.window.height/4-50}
                 wrapperColor={themes[this.context.theme].gradientStart}
                 highlightColor={'#a8d8d8'}
                 renderItem={(data, index, isSelected) => {
@@ -56,11 +56,11 @@ export default class ValuePicker extends React.Component {
                     <View>
                       <Text style={
                         isSelected?{
-                            fontSize: 45,fontWeight: '900',
+                            fontSize: 35,fontWeight: '900',
                             color: themes[this.context.theme].mainText,
                           } : 
                           {
-                            fontSize: 35,
+                            fontSize: 30,
                             color: "#3cb5c6",}
                           }>
                         {data}

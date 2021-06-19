@@ -14,9 +14,9 @@ export const styles ={
   },
   menu:{
       position: 'absolute',
-      top: 40,
+      top: 80,
       right: 0,
-      height: lay.window.height-300,
+      height: 250,
       width: 190,
       zIndex: 150,
     

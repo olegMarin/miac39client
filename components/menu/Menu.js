@@ -30,13 +30,14 @@ export default function Menu(props) {
           press={()=>{context.setScreen('chat')}}
           title={'написать врачу'}
           />
+        {/*
         <MenuButton
           width={150}
           icon={'wifi'}
           press={()=>{context.toggleTheme()}}
           title={'подключить Wi-Fi/BT'}
           />
-          {/*  
+           
         <MenuButton
           width={170}
           icon={'bluetooth-connect'}
@@ -46,7 +47,7 @@ export default function Menu(props) {
 */}
         {props.hasCameraPermission&&
         <MenuButton
-          width={200}
+          width={190}
           icon={'camera-plus'}
           press={()=>{props.setCameraState()}}
           title={'фото показаний тонометра'}

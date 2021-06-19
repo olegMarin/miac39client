@@ -11,13 +11,14 @@ import Chat from "./screens/Chat"
 import LogIn from './screens/logIn/LogIn'
 import PhoneLogin from './screens/logIn/PhoneLogin'
 import { AppearanceProvider, Appearance } from 'react-native-appearance';
+import { lay } from './constants/Layout';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: {},
-      user1:{
+      user1: {},
+      user:{
         id: 2,
         name: 'oleg',
         token: '1cac447de0804e52abbf74ab41749678'
@@ -79,7 +80,10 @@ toggleTheme = () =>{
         <Context.Provider value={this.state}>
           <View 
             style={{...styles.container,
-          backgroundColor: themes[this.state.theme].allBackground,}}>
+                      height: lay.window.height,
+                      width: lay. window.width,
+                      overflow: 'hidden',
+                      backgroundColor: themes[this.state.theme].allBackground,}}>
             {this.state.screen==='main'?
               <Main/>:
               <>

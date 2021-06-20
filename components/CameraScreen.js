@@ -24,7 +24,7 @@ const [cameraType, setCameraType]= useState('back')
 const _getPhoto = async () => {
     if (cameraRef) {
       let photo = await cameraRef.takePictureAsync({
-        quality: 0.1,
+        quality: 0.3,
         base64: true,
       });
       setPic(photo)

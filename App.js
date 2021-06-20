@@ -17,8 +17,8 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      user1: {},
-      user:{
+      user: {},
+      user1:{
         id: 2,
         name: 'oleg',
         token: '1cac447de0804e52abbf74ab41749678'
@@ -29,7 +29,13 @@ export default class App extends React.Component {
       screen: 'PhoneLogin',
       //screen: 'main',
       setScreen: this.setScreen,
+      average: {},
+      setAverage: this.setAverage,
     }
+  }
+
+  setAverage=(u)=>{
+    this.setState({average: u})
   }
 
   componentDidMount() {

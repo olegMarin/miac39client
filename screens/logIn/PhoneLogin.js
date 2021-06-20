@@ -87,6 +87,10 @@ export default class PhoneLogin extends React.Component {
       axi("",'pinCheck', { pin: text, phone: this.state.num }).then((result) => {
         if (result.type == 'approved') {
           this.setState({ pinWrong: false, pinOk: true, token: result.token })
+          this.context.setAverage({aTop: result.patient.aTop, 
+                                    aLow: result.patient.aLow, 
+                                    aPulse: result.patient.aPulse, 
+                                    aSaturation: result.patient.aSaturation})
           this._logIn(result.token)
         } else {
           this.setState({ pinWrong: true })

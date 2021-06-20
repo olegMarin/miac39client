@@ -13,6 +13,7 @@ import { Camera } from 'expo-camera';
 import History from "../components/History";
 import CameraScreen from "../components/CameraScreen";
 import NewTag from "../components/NewTag"
+import CompleteAdvice from '../components/CompleteAdvice'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
@@ -39,13 +40,13 @@ const dataSourceSaturation = new Array(11).fill({ label: null }).map((item, id) 
 });
 
   const context = useContext(Context)
-  const [hightValue, setHightValue] = useState(120)
+  const [hightValue, setHightValue] = useState(context.average.aTop)
   
-  const [lowValue, setLowValue] = useState(70)
+  const [lowValue, setLowValue] = useState(context.average.aLow)
   
-  const [pulse, setPulse] = useState(60)
+  const [pulse, setPulse] = useState(context.average.aPulse)
   
-  const [saturation, setSaturation] = useState(98)
+  const [saturation, setSaturation] = useState(context.average.aSaturation)
 
   const [process, setProcess] = useState(false)
 
@@ -58,6 +59,8 @@ const dataSourceSaturation = new Array(11).fill({ label: null }).map((item, id) 
   const [teg, setTag] = useState('')
 
   const [newTegScreen, setNewTegScreen] = useState(false)
+
+  const [advice, setAdvise]=useState('')
 
 const [cameraState, setCameraState] = useState(false)
 const [messages, setMessages] = useState()
@@ -89,6 +92,20 @@ const [history, setHistory] = useState([])
           }).then((result) => {
         if (result.type == 'done') {
           //Alert.alert('данные отправлены')
+          setTimeout(()=>{
+            if (hightValue<101){
+              setAdvise('coffee')
+            }
+            if (hightValue<121&&hightValue>100){
+              setAdvise('ok')
+            }            
+            if (hightValue<180&&hightValue>120){
+              setAdvise('openWindow')
+            }            
+            if (hightValue>179){
+              setAdvise('ambulance')
+            }
+          },1500)
           setProcess(false)
         } else {
         }
@@ -238,6 +255,12 @@ const [history, setHistory] = useState([])
                 setNewTegScreen(false)
                 }}
               close={()=>setNewTegScreen(false)}
+            />
+          }
+          {advice!=='' &&
+            <CompleteAdvice
+              close={()=>{setAdvise('')}}
+              advice={advice}
             />
           }
       </View>

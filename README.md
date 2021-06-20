@@ -68,7 +68,7 @@
 Cерверная сторона продукта: https://github.com/NOoBODDY/serverMIAC
 
 Веб версию приложения можно найти [тут](http://miac39client.businessmod.ru/)
-
+Нативную версию приложения можно найти [тут](http://miac39client.businessmod.ru/miac39clienl.apk)
 
 В файле package.json пристуствуют следующие пакеты:
 

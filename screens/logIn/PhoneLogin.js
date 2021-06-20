@@ -16,7 +16,7 @@ export default class PhoneLogin extends React.Component {
     super(props)
     this.state = {
       num: '+7',
-      numExist: true,
+      numExist: false,
       numSave: false,
       pinView: false,
       pin: '',
@@ -25,7 +25,7 @@ export default class PhoneLogin extends React.Component {
       pinOk: false,
       step: 1,
       sum: 1,
-      idc: 0,
+      token: '',
       recurentRefresh: 0,
       snils:'',
       isIrrationalEating: false,
@@ -106,7 +106,6 @@ export default class PhoneLogin extends React.Component {
                                 phone: this.state.num
                               })
           await  AsyncStorage.setItem("phone", this.state.num)
-          //вход выполнен карта оплаты есть
          this.context.setScreen('main') 
       }
 
@@ -118,9 +117,15 @@ export default class PhoneLogin extends React.Component {
                                 id: 2,
                                 name: 'oleg',
                                 phone: this.state.num
-                              })
-          //вход выполнен карта оплаты есть
-         this.context.setScreen('main') 
+                              })      
+          axi("",'saveForm', { ...this.state }).then((result) => {
+            if (result.type == 'approved') {
+              
+            } else {
+              
+            }
+          }, (e) => { console.log(e) })
+            this.context.setScreen('main') 
       }
 
 
@@ -223,7 +228,7 @@ export default class PhoneLogin extends React.Component {
               maxLength={4}
               keyboardType='numeric'
           />
-          {this.state.numExist&&
+          {!this.state.numExist&&
             <>
               <Text 
                 style={{
@@ -415,7 +420,7 @@ export default class PhoneLogin extends React.Component {
           {this.state.pinOk &&
             <TouchableOpacity
               onPress={() => {
-                this._logIn()
+                this._saveForm()
               }}>
               <Text
                 style={{

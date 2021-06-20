@@ -39,7 +39,7 @@ export const themes = {
     avaIcon: '#F2F2F2',
     menuIcon: '#333',
     buttonNextColor: tintColor,
-    //buttonNextDialogColorOn: '#015361',
+    buttonSelected: '#015361',
     buttonNextDialogColorOn: '#ddd',
     buttonNextDialogColorOff: '#F2994A',
     buttonNextTextColor: '#fff',

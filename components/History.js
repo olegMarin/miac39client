@@ -5,12 +5,14 @@ import {Context} from "../functions/context"
 import {themes} from "../constants/Colors"
 import {lay} from "../constants/Layout"
 import BackButton from "./BackButton"
+import moment from 'moment';
+import 'moment/locale/ru';
 
 export default function History(props) {
   
   const context = useContext(Context)
 
-
+//console.log(props.history)
  
     return(
         <View
@@ -52,8 +54,8 @@ export default function History(props) {
                 backgroundColor: themes[context.theme].allBackground,
                 color: '#fff',
                 height: lay.window.height-150,
-                width: 300,
-                left: (lay.window.width-300)/2,
+                width: 320,
+                left: (lay.window.width-320)/2,
                 borderRadius: 15,
                 zIndex: 200,
               }}
@@ -67,58 +69,61 @@ export default function History(props) {
                     flexDirection: 'row',
                     justifyContent: 'space-around',
                     alignItems: 'center',
-                    borderEndColor: '#777'
+                    borderEndColor: '#777',
+                    marginTop: 8,
                   }}
                 >
                   <Text
-                  style={{width: 50, fontSize: 12,color: themes[context.theme].text}}
+                  style={{width: 90, fontSize: 12,color: themes[context.theme].text}}
                   >время</Text>
                   <Text
-                  style={{width: 50, fontSize: 12,color: themes[context.theme].text}}
+                  style={{width: 50, fontSize: 12, textAlign: 'center' ,color: themes[context.theme].text}}
                   >верхнее</Text>
                   <Text
-                  style={{width: 50, fontSize: 12,color: themes[context.theme].text}}
+                  style={{width: 50, fontSize: 12,textAlign: 'center' ,color: themes[context.theme].text}}
                   >нижнее</Text>
                   <Text
-                  style={{width: 50, fontSize: 12,color: themes[context.theme].text}}
+                  style={{width: 35, fontSize: 12,textAlign: 'center' ,color: themes[context.theme].text}}
                   >пульс</Text>
                   <Text
-                  style={{width: 50, fontSize: 12,color: themes[context.theme].text}}
-                  >кислород (%)</Text>
+                  style={{width: 30, fontSize: 12,textAlign: 'center' ,color: themes[context.theme].text}}
+                  >o2</Text>
                   <Text
                   style={{width: 50, fontSize: 12,color: themes[context.theme].text}}
                   >метка</Text>
                 </View>
                 {
                   props.history.map((item, index)=>{
+                    return(
                     <View
                       key={index}
                       style={{
                         flexDirection: 'row',
                         justifyContent: 'space-around',
                         alignItems: 'center',
-                        borderEndColor: '#777'
+                        borderEndColor: '#777',
+                        marginTop: 8,
                       }}
                     >
                       <Text
+                      style={{width: 90, fontSize: 12, color: themes[context.theme].text}}
+                      >{moment(item.Unixtime*1000).format('lll')}</Text>
+                      <Text
+                      style={{width: 50, fontSize: 12,textAlign: 'center' , color: themes[context.theme].text}}
+                      >{item.TopPress}</Text>
+                      <Text
+                      style={{width: 50, fontSize: 12,textAlign: 'center' , color: themes[context.theme].text}}
+                      >{item.LowPress}</Text>
+                      <Text
+                      style={{width: 35, fontSize: 12,textAlign: 'center' , color: themes[context.theme].text}}
+                      >{item.Pulse}</Text>
+                      <Text
+                      style={{width: 30, fontSize: 12,textAlign: 'center' , color: themes[context.theme].text}}
+                      >{item.Saturation}</Text>
+                      <Text
                       style={{width: 50, fontSize: 12, color: themes[context.theme].text}}
-                      >{item.unixtime}</Text>
-                      <Text
-                      style={{width: 50, fontSize: 12}}
-                      >{item.topPress}</Text>
-                      <Text
-                      style={{width: 50, fontSize: 12}}
-                      >{item.lowPress}</Text>
-                      <Text
-                      style={{width: 50, fontSize: 12}}
-                      >{item.pulse}</Text>
-                      <Text
-                      style={{width: 50, fontSize: 12}}
-                      >{item.saturation}</Text>
-                      <Text
-                      style={{width: 50, fontSize: 12}}
-                      >{item.tag}</Text>
-                    </View>
+                      >{item.Tag}</Text>
+                    </View>)
                   })
                 }
             </ScrollView>

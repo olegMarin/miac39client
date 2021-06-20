@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView, ImageBackground } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import {Context} from "../functions/context"
 import {themes} from "../constants/Colors"
@@ -7,6 +7,7 @@ import {lay} from "../constants/Layout"
 import BackButton from "./BackButton"
 import {styles} from "../constants/Styles"
 import {FontAwesome, MaterialIcons} from '@expo/vector-icons'
+import axi from '../functions/axiosf'
 
 import { Camera } from 'expo-camera';
 
@@ -23,13 +24,25 @@ const [cameraType, setCameraType]= useState('back')
 const _getPhoto = async () => {
     if (cameraRef) {
       let photo = await cameraRef.takePictureAsync({
-        quality: 0.3,
+        quality: 0.1,
         base64: true,
       });
       setPic(photo)
     }
   };
 
+const _sendPhoto = async (base64) => {
+  axi("",'photoAnalize', { token: context.user.token, photo: base64 }).then((result) => {
+        if (result !== null) {
+          props.setTop(result.top)
+          props.setLow(result.low)
+          props.setPulse(result.pulse)
+          props.close()
+        } else {
+
+        }
+      }, (e) => { console.log(e) })
+    }
  
     return(
         <View
@@ -115,7 +128,7 @@ const _getPhoto = async () => {
                       }}
                       style={{ ...styles.buttonCamera, bottom: 0, right: 119 }}
                     >
-                      <FontAwesome name={'camera'} size={26} color="#fffa" />
+                      <FontAwesome name={'camera'} size={26} color="#f22a" />
                     </TouchableOpacity>
                 }
                 {!pic &&           
@@ -156,16 +169,7 @@ const _getPhoto = async () => {
                 }{pic &&
                   <TouchableOpacity
                     onPress={() => {
-                      let newMsg = messages
-                        for (let i = 1; i < newMsg.length; i++)
-                        {
-                            newMsg[i].photo = pic.uri
-                            newMsg[i].Base64 = pic.base64 
-                            newMsg[i]._id = newMsg[i]._id+"pic"
-                            newMsg[i].controlPhoto = 3
-                        }
-                      //тут пишем сообщение для отправки
-                      //this.setState({ camera: false, messages: [...newMsg, { system: true, rerender: true}], messIdNewPhoto: this.state.msgGoId })
+                      _sendPhoto(pic.base64)
                       console.log("press", pic.uri)
                     }}
                     style={{ ...styles.buttonCamera, bottom: 0, right: 8 }}

@@ -23,8 +23,8 @@ export default function MenuButton(props) {
             bottom: 0,
             right: 0,
             backgroundColor: 'transparent',
-            width: 150,
-            height: 150,
+            width: 200,
+            height: 200,
             borderRadius: 110,
             justifyContent: 'center',
             alignItems: 'center',
@@ -65,7 +65,7 @@ export default function MenuButton(props) {
             backgroundColor: 'transparent',
             position: 'absolute',
             zIndex: 1,
-            top: -25, left: -25
+            top: 0, left: 0
           }}
           source={require('../../assets/beatingHeartIcon.json')}
            />

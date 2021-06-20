@@ -91,6 +91,9 @@ export default class PhoneLogin extends React.Component {
                                     aLow: result.patient.aLow, 
                                     aPulse: result.patient.aPulse, 
                                     aSaturation: result.patient.aSaturation})
+          let newUser = result.patient                  
+          newUser.token = result.token       
+          this.context.setUser(newUser)         
           this._logIn(result.token)
         } else {
           this.setState({ pinWrong: true })
@@ -104,11 +107,7 @@ export default class PhoneLogin extends React.Component {
   _logIn = async (t) => {
           //записи аккаунта введённого телефона в контекст и в память телефона
           await  AsyncStorage.setItem("userId", t)
-          this.context.setUser({id: 2,
-                                name: 'oleg',
-                                token: t,
-                                phone: this.state.num
-                              })
+ 
           await  AsyncStorage.setItem("phone", this.state.num)
          this.context.setScreen('main') 
       }

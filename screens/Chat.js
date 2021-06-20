@@ -32,7 +32,7 @@ export default class Chat extends React.Component {
         },
       {
         _id: 2,
-        text: "Чуть не сдох, если честно))))))",
+        text: "Чуть не умер, если честно",
         createdAt: new Date(2020, 1, 29, 16, 18, 0),
         user: {
           _id: 2,

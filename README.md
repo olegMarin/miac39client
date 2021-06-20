@@ -1,6 +1,6 @@
 # miac39client
 
-https://github.com/NOoBODDY/serverMIAC
+серверная сторона продукта: https://github.com/NOoBODDY/serverMIAC
 
 [веб версия приложения](http://miac39client.businessmod.ru/)
 
